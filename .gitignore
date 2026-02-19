@@ -1,0 +1,15 @@
+*
+!.gitignore
+!fish/config.fish
+!ghostty/
+!ghostty/**
+!niri/
+!niri/**
+!nvim/
+!nvim/**
+!swaync/
+!swaync/**
+!waybar/
+!waybar/**
+!wofi/
+!wofi/**

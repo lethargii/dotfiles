@@ -1,0 +1,168 @@
+{
+  "layer": "top",
+  "position": "bottom",
+  "modules-left": ["group/alimentation", "group/whoami"],
+  "modules-center": ["custom/swaync"],
+  "modules-right": ["tray", "keyboard-state", "group/networking", "group/power", "clock"],
+
+  "group/alimentation": {
+    "orientation": "inherit",
+    "modules": ["custom/poweroff", "custom/reboot", "custom/logout"]
+  },
+  "custom/poweroff": {
+    "format": "<span size='10pt'>⏻</span>",
+    "on-click": "poweroff",
+    "tooltip-format": "Turn off the computer"
+  },
+  "custom/reboot": {
+    "format": "<span size='10pt'></span>",
+    "on-click": "reboot",
+    "tooltip-format": "Reboot the computer"
+  },
+  "custom/logout": {
+    "format": "<span size='10pt'></span>",
+    "on-click": "niri msg action quit",
+    "tooltip-format": "Log out from the session"
+  },
+
+  "group/whoami": {
+    "orientation": "inherit",
+    "modules": ["user", "custom/username"]
+  },
+  "user": {
+    "format": "",
+    "interval": 60,
+    "height": 16,
+    "width": 16,
+    "icon": true
+  },
+  "custom/username": {
+    "exec": "whoami",
+    "tooltip": false
+  },
+
+  "custom/swaync": {
+    "max-length": 30,
+    "on-click": "swaync-client -t -sw"
+  },
+
+  "tray": {
+    "spacing": 10
+  },
+
+  "keyboard-state": {
+    "numlock": true,
+    "capslock": true,
+    "format": {
+      "numlock": "N {icon}",
+      "capslock": "C {icon} "
+    },
+    "format-icons": {
+      "locked": "<span size='10pt'></span>",
+      "unlocked": "<span size='10pt'></span>"
+    }
+  },
+
+  "group/networking": {
+    "orientation": "inherit",
+    "modules": ["wireplumber", "network", "bluetooth"]
+  },
+  "network": {
+    "interface": "wlp4s0",
+    "format-wifi": "{icon}",
+    "format-ethernet": "{icon}",
+    "format-disconnected": "{icon}", //An empty format will hide the module.
+    "format-icons": {
+      "wifi": [
+        "<span size='10pt'>󰤯</span>",
+        "<span size='10pt'>󰤟</span>",
+        "<span size='10pt'>󰤢</span>",
+        "<span size='10pt'>󰤥</span>",
+        "<span size='10pt'>󰤨</span>"
+      ],
+      "ethernet": "<span size='10pt'>󰈀</span>",
+      "disabled": "<span size='10pt'>󰤭</span>",
+      "disconnected": "<span size='10pt'>󰤩</span>"
+    },
+    "tooltip-format-wifi": "{essid} ({signalStrength}%)",
+    "tooltip-format-ethernet": "{ifname} ",
+    "tooltip-format-disconnected": "Disconnected",
+    "on-click": "nm-connection-editor"
+  },
+  "bluetooth": {
+    "format-on": "<span size='10pt'>󰂯</span>",
+    "format-off": "<span size='10pt'>󰂲</span>",
+    "format-disabled": "<span size='10pt'>󰂲</span>",
+    "format-connected": "<span size='10pt'>󰂱</span>",
+    "tooltip-format": "{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_address}",
+    "tooltip-format-enumerate-connected-battery": "{device_address} | Battery: {device_battery_percentage}%",
+    "on-click": "blueman-manager"
+  },
+
+  "group/sound": {
+    "orientation": "inherit",
+    "modules": ["group/sink", "wireplumber#source"]
+  },
+  "wireplumber": {
+    "format": "{icon}",
+    "format-muted": "🔇",
+    "tooltip-format": "{volume}%",
+    "format-icons": {
+      "default": ["", ""]
+    },
+    "on-click": "pavucontrol"
+  },
+
+  "group/power": {
+    "orientation": "inherit",
+    "modules": ["battery", "power-profiles-daemon"]
+  },
+  "battery": {
+    "format": "{icon}",
+    "states": {
+      "warning": 20,
+      "critical": 10
+    },
+    "tooltip-format": "{capacity}% - {time} until fully discharged",
+    "tooltip-format-charging": "{capacity}% - {time} until fully charged",
+    "format-icons": [
+      "<span size='10pt'>󰁺</span>",
+      "<span size='10pt'>󰁻</span>",
+      "<span size='10pt'>󰁼</span>",
+      "<span size='10pt'>󰁽</span>",
+      "<span size='10pt'>󰁾</span>",
+      "<span size='10pt'>󰁿</span>",
+      "<span size='10pt'>󰂀</span>",
+      "<span size='10pt'>󰂁</span>",
+      "<span size='10pt'>󰂂</span>",
+      "<span size='10pt'>󰁹</span>"
+    ],
+    "format-charging": "<span size='10pt'>󰂄</span>",
+    "format-plugged": "<span size='10pt'>󰚥</span>",
+    "format-critical": "<span size='10pt'>󰂃</span>"
+  },
+  "power-profiles-daemon": {
+    "format": "{icon}",
+    "tooltip-format": "Power profile: {profile}",
+    "tooltip": true,
+    "format-icons": {
+      "default": "<span size='10pt'></span>",
+      "performance": "<span size='10pt'></span>",
+      "balanced": "<span size='10pt'></span>",
+      "power-saver": "<span size='10pt'></span>"
+    }
+  },
+
+  "clock": {
+    "format": "{:L%a %d %b %H:%M}",
+    "locale": "fr_FR.UTF-8",
+    "tooltip-format": "<tt><small>{calendar}</small></tt>",
+    "on-click": "gnome-calendar",
+    "actions":  {
+      "on-click-right": "mode",
+      "on-scroll-up": "shift_up",
+      "on-scroll-down": "shift_down"
+    }
+  }
+}

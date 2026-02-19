@@ -1,0 +1,4 @@
+font-family = DepartureMono Nerd Font
+background-opacity=0.7
+background-blur=true
+command=fish -C fastfetch

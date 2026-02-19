@@ -1,0 +1,6 @@
+@import ".cache/wal/colors-waybar.css";
+
+window {
+  border-radius: 1em;
+  background-color: alpha(@background, 0.8);
+}

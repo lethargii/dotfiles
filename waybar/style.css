@@ -1,0 +1,66 @@
+@import "../../.cache/wal/colors-waybar.css";
+
+#waybar{
+  background: transparent;
+  border: none;
+  font-family: "FiraCode Nerd Font", "Noto Sans", monospace;
+  font-size: 11px;
+  /* border-radius: 1em; */
+}
+
+.modules-left, .modules-center, .modules-right {
+  margin: 0 0 0.5em 0;
+}
+
+#alimentation, #whoami, #workspaces button, #window, #tray, #keyboard-state, #networking, #sound, #language, #power, #clock, #swaync {
+  border-radius: 1.5em;
+  background-color: alpha(@background, 0.6);
+  color: @foreground;
+  padding: 0 0.5em 0 0.5em;
+  margin: 0 0.5em 0 0.5em;
+  border: solid;
+  border-width: 2px;
+  border-color: @background;
+}
+
+#pulseaudio-slider, #backlight-slider {
+  min-width: 2em;
+}
+
+#custom-poweroff, #custom-reboot, #custom-logout {
+  min-width: 2em;
+}
+
+#network, #bluetooth {
+  min-width: 2em;
+}
+
+#wireplumber {
+  min-width: 2em;
+}
+
+#backlight {
+  min-width: 2em;
+}
+
+#battery, #power-profiles-daemon {
+  min-width: 2em;
+}
+
+#battery {
+  color: mix(@foreground, blue, 0.4);
+}
+
+#battery.charging {
+  color: mix(@foreground, green, 0.4);
+}
+
+#battery.warning {
+  color: mix(@foreground, yellow, 0.4);
+}
+
+#battery.critical {
+  color: mix(@foreground, red, 0.4);
+}
+
+
