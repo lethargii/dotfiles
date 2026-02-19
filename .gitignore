@@ -6,7 +6,7 @@
 !niri/
 !niri/**
 !nvim/
-!nvim/**
+!nvim/init.lua
 !swaync/
 !swaync/**
 !waybar/
