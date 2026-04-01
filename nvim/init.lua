@@ -19,17 +19,14 @@ vim.diagnostic.config({
 
 require("lazy").setup({
   spec = {
-    -- Catpuccin theme
+    -- Pywal16 theme
     {
-      "catppuccin/nvim",
-      name = "catppuccin",
-      priority = 1000,
-      opts = {
-        transparent_background = true,
-        float = {
-          transparent = true;
-        }
-      }
+      'uZer/pywal16.nvim',
+      -- for local dev replace with:
+      -- dir = '~/your/path/pywal16.nvim',
+      config = function()
+        vim.cmd.colorscheme("pywal16")
+      end,
     },
     -- Treesitter syntax highlighting
 	  {
@@ -46,7 +43,7 @@ require("lazy").setup({
     {
       "mason-org/mason-lspconfig.nvim",
       opts = {
-        ensure_installed = { "lua_ls", "rust_analyzer", "omnisharp" },
+        ensure_installed = { "lua_ls", "rust_analyzer", "omnisharp", "clangd" },
         handlers = {
           function(server_name)
             require("lspconfig")[server_name].setup{}
@@ -179,25 +176,80 @@ require("lazy").setup({
       "nvim-lualine/lualine.nvim",
       dependencies = { "nvim-tree/nvim-web-devicons" },
       config = function ()
-        require("lualine").setup()
+        require("lualine").setup({
+          options = {
+            theme = 'pywal16-nvim',
+          },
+        })
       end,
     },
+    -- Debug Adapter Protocol -- Plugin that allows to debug a program in neovim like an IDE
     {
       "mfussenegger/nvim-dap",
+      keys = {
+        {
+          "<leader>db",
+          function ()
+            vim.cmd("DapToggleBreakpoint")
+          end,
+          desc = "Add breakpoint at line",
+        },
+        {
+          "<leader>dr",
+          function ()
+            vim.cmd("DapContinue")
+          end,
+          desc = "Start or continue the debugger",
+        },
+      }
     },
+    -- Automatic setup of DAP using mason
+    {
+      "jay-babu/mason-nvim-dap.nvim",
+      event = "VeryLazy",
+      dependencies = {
+        "mason-org/mason.nvim",
+        "mfussenegger/nvim-dap",
+      },
+      opts = {
+        handlers = {},
+        ensure_installed = {
+          "codelldb",
+        },
+      },
+    },
+    -- DAP UI -- Plugin that adds a UI to DAP
     {
       "rcarriga/nvim-dap-ui",
+      event = "VeryLazy",
       dependencies = {
         "mfussenegger/nvim-dap",
         "nvim-neotest/nvim-nio",
       },
+      config = function ()
+        local dap, dapui = require("dap"), require("dapui")
+        dap.listeners.before.attach.dapui_config = function()
+          dapui.open()
+        end
+        dap.listeners.before.launch.dapui_config = function()
+          dapui.open()
+        end
+        dap.listeners.before.event_terminated.dapui_config = function()
+          dapui.close()
+        end
+        dap.listeners.before.event_exited.dapui_config = function()
+          dapui.close()
+        end
+      end,
     },
+    -- Plugin which provides commands to comment code easier
     {
       "numToStr/Comment.nvim",
       opts = {
 
       }
     },
+    -- barbar -- Plugin that adds in neovim like an IDE
     {
       "romgrk/barbar.nvim",
       dependencies = {
@@ -208,6 +260,7 @@ require("lazy").setup({
       opts = {
       }
     },
+    -- LazyGit -- Plugin that allows to use LazyGit within neovim
     {
       "kdheepak/lazygit.nvim",
       lazy = true,
@@ -225,16 +278,93 @@ require("lazy").setup({
         {"<leader>lg", "<cmd>LazyGit<cr>", desc = "LazyGit"}
       }
     },
-    -- {
-    --   'mrcjkb/rustaceanvim',
-    --   version = '^6',
-    --   lazy = false,
-    -- }
+    -- NoneLs -- Fork of the NullLs plugin which makes management of linters easy
+    {
+      "nvimtools/none-ls.nvim",
+      opts = function(_, opts)
+        local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+        opts.on_attach = function(client, bufnr)
+          if client.supports_method("textDocument/formatting") then
+            vim.api.nvim_clear_autocmds({
+              group = augroup,
+              buffer = bufnr,
+            })
+            vim.api.nvim_create_autocmd("BufWritePre", {
+              group = augroup,
+              buffer = bufnr,
+              callback = function ()
+                vim.lsp.buf.format({bufnr = bufnr})
+              end,
+            })
+          end
+        end
+      end,
+    },
+    {
+      "jay-babu/mason-null-ls.nvim",
+      event = { "BufReadPre", "BufNewFile" },
+      dependencies = {
+        "williamboman/mason.nvim",
+        "nvimtools/none-ls.nvim",
+      },
+      opts = {
+        ensure_installed = {
+          'clang_format'
+        },
+        handlers = {
+
+        },
+      },
+    },
+    { -- This plugin
+      "Zeioth/compiler.nvim",
+      cmd = {"CompilerOpen", "CompilerToggleResults", "CompilerRedo"},
+      dependencies = { "stevearc/overseer.nvim", "nvim-telescope/telescope.nvim" },
+      opts = {},
+      keys = {
+        {
+          "<leader>c",
+          function ()
+            vim.cmd("CompilerOpen")
+          end,
+          desc = "Open compiler",
+        }
+      }
+    },
+    { -- The task runner we use
+      "stevearc/overseer.nvim",
+      commit = "6271cab7ccc4ca840faa93f54440ffae3a3918bd",
+      cmd = { "CompilerOpen", "CompilerToggleResults", "CompilerRedo" },
+      opts = {
+        task_list = {
+          direction = "bottom",
+          min_height = 25,
+          max_height = 25,
+          default_detail = 1
+        },
+      },
+    },
+    {
+        -- see the image.nvim readme for more information about configuring this plugin
+        "3rd/image.nvim",
+        opts = {
+            backend = "kitty", -- whatever backend you would like to use
+            max_width = 100,
+            max_height = 12,
+            max_height_window_percentage = math.huge,
+            max_width_window_percentage = math.huge,
+            window_overlap_clear_enabled = true, -- toggles images when windows are overlapped
+            window_overlap_clear_ft_ignore = { "cmp_menu", "cmp_docs", "" },
+        },
+    }
   },
   install = { colorscheme = { "habamax" } },
   checker = { enabled = true },
 })
 
-vim.cmd.colorscheme "catppuccin"
+vim.api.nvim_create_autocmd("Signal", {
+    pattern = "SIGUSR1",
+    command = "colorscheme pywal16",
+})
 vim.opt.number = true
 

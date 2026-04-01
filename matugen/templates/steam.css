@@ -1,0 +1,30 @@
+/*
+ * GTK 4 Colors
+ * Converted from Matugen template
+ */
+
+:root {
+  --adw-accent-rgb: {{ base16.base08.default.red }} {{ base16.base08.default.green }} {{ base16.base08.default.blue }};
+  --adw-accent-bg-rgb: {{ base16.base08.default.red | lighten: -15.0 | set_alpha: 0.8 }} {{ base16.base08.default.green | lighten: -15.0 | set_alpha: 0.8 }} {{ base16.base08.default.blue | lighten: -15.0 | set_alpha: 0.8 }};
+  --adw-accent-fg-rgb: {{ base16.base08.default.red }} {{ base16.base08.default.green }} {{ base16.base08.default.blue }};
+
+  --adw-window-bg-rgb: {{ base16.base00.default.red | lighten: -15.0 }} {{ base16.base00.default.green | lighten: -15.0 }} {{ base16.base00.default.blue | lighten: -15.0 }};
+  --adw-window-fg-rgb: {{ base16.base07.default.red }} {{ base16.base07.default.green }} {{ base16.base07.default.blue }};
+
+  --adw-headerbar-bg-rgb: {{ base16.base00.default.red | lighten: -15.0 }} {{ base16.base00.default.green | lighten: -15.0 }} {{ base16.base00.default.blue | lighten: -15.0 }};
+  --adw-headerbar-fg-rgb: {{ base16.base07.default.red }} {{ base16.base07.default.green }} {{ base16.base07.default.blue }};
+
+  --adw-popover-bg-rgb: {{ base16.base00.default.red | lighten: -15.0 }} {{ base16.base00.default.green | lighten: -15.0 }} {{ base16.base00.default.blue | lighten: -15.0 }};
+  --adw-popover-fg-rgb: {{ base16.base07.default.red }} {{ base16.base07.default.green }} {{ base16.base07.default.blue }};
+
+  --adw-view-bg-rgb: {{ base16.base00.default.red | lighten: -15.0 }} {{ base16.base00.default.green | lighten: -15.0 }} {{ base16.base00.default.blue | lighten: -15.0 }};
+  --adw-view-fg-rgb: {{ base16.base07.default.red }} {{ base16.base07.default.green }} {{ base16.base07.default.blue }};
+
+  --adw-card-bg-rgb: {{ base16.base00.default.red | lighten: -15.0 }} {{ base16.base00.default.green | lighten: -15.0 }} {{ base16.base00.default.blue | lighten: -15.0 }};
+  --adw-card-fg-rgb: {{ base16.base07.default.red }} {{ base16.base07.default.green }} {{ base16.base07.default.blue }};
+
+  --adw-sidebar-bg-rgb: {{ base16.base00.default.red | lighten: -15.0 }} {{ base16.base00.default.green | lighten: -15.0 }} {{ base16.base00.default.blue | lighten: -15.0 }};
+  --adw-sidebar-fg-rgb: {{ base16.base07.default.red }} {{ base16.base07.default.green }} {{ base16.base07.default.blue }};
+  --adw-sidebar-border-rgb: {{ base16.base00.default.red | lighten: -15.0 }} {{ base16.base00.default.green | lighten: -15.0 }} {{ base16.base00.default.blue | lighten: -15.0 }};
+  --adw-sidebar-backdrop-rgb: {{ base16.base00.default.red | lighten: -15.0 }} {{ base16.base00.default.green | lighten: -15.0 }} {{ base16.base00.default.blue | lighten: -15.0 }};
+}

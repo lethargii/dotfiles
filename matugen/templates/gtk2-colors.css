@@ -1,0 +1,21 @@
+gtk-theme-name="Adwaita-dark"
+gtk-icon-theme-name="PaperIconTheme"
+
+gtk-color-scheme="
+text_color:{{base16.base07.default.hex}}
+base_color:{{base16.base08.default.hex}}
+fg_color:{{base16.base07.default.hex}}
+bg_color:{{base16.base00.default.hex | lighten: -15.0 }}
+selected_fg_color:{{base16.base08.default.hex}}
+selected_bg_color:{{base16.base08.default.hex | lighten: -15.0 }}
+insensitive_fg_color:{{base16.base04.default.hex }}
+insensitive_bg_color:{{base16.base00.default.hex | lighten: -15.0 }}
+menu_color:{{base16.base00.default.hex | lighten: -15.0 }}
+link_color:{{base16.base08.default.hex}}
+visited_link_color:{{base16.base08.default.hex | lighten: -15.0 }}
+column_header_color:{{base16.base00.default.hex | lighten: -15.0 }}
+hover_column_header_color:{{base16.base00.default.hex | lighten: -10.0 }}
+window_color:{{base16.base00.default.hex | lighten: -15.0 }}
+tooltip_fg_color:{{base16.base07.default.hex}}
+tooltip_bg_color:{{base16.base00.default.hex | lighten: -15.0 }}
+"

@@ -1,4 +1,4 @@
-@import "/home/lethargii/.config/wofi/colors.css";
+@import "/home/lethargii/.config/waybar/colors.css";
 
 window {
   border: 4px solid darker(@base00);
@@ -7,7 +7,8 @@ window {
 }
 
 #entry {
-  padding: 0.4rem;
+  margin: 0.4em;
+  min-height: 4em;
   border-radius: 0.4rem;
   font-family: "JetBrainsMono Nerd Font";
 }

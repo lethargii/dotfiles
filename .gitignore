@@ -1,8 +1,9 @@
 *
 !.gitignore
+!fish/
 !fish/config.fish
-!ghostty/
-!ghostty/**
+!kitty/
+!kitty/**
 !niri/
 !niri/**
 !nvim/
@@ -13,3 +14,5 @@
 !waybar/**
 !wofi/
 !wofi/**
+!matugen/
+!matugen/**

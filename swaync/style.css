@@ -1,62 +1,24 @@
-@import "../../.cache/wal/colors-waybar.css";
+@import "colors.css";
+
+@define-color background darker(@base00);                                                                                             
+@define-color foreground lighter(@base07);
 
 .control-center {
-  /* The Control Center which contains the old notifications + widgets */
-  background: alpha(@background, 0.6);
-  color: @foreground;
-  border: solid;
-  border-width: 2px;
-  border-color: @background;
+  border: 2px solid @background;
+  font-family: "JetBrainsMono Nerd Font Propo", "Noto Sans", monospace;
 }
 
 .notification-group {
   background: transparent;
 }
 
-.notification {
-  border: solid 2px @background;
-  color: @foreground;
+.summary {
+  padding: 0.5rem 0 1rem 0;
 }
-
-.widget-title button {
-  border: solid 2px @background;
-  color: @foreground;
+.time {
+  padding: 0.5rem 1rem 0 0;
+  font-size: 11px;
 }
-
-.widget-dnd label {
-  color: @foreground;
+.body {
+  padding: 0.5rem 0 0.5rem 0;
 }
-
-.widget-dnd slider {
-  background: @color2;
-}
-
-.widget-dnd switch {
-  background: alpha(darker(@background), 0.6);
-  border: solid 2px @background;
-}
-
-.widget-dnd switch:checked {
-  background: darker(@color2);
-}
-
-.widget-volume {
-  background-color: transparent;
-}
-
-.widget-volume trough highlight, .widget-backlight trough highlight {
-  background: @color2;
-  padding: 5px;
-}
-
-.widget-volume trough, .widget-backlight trough {
-  border: solid 2px @background;
-  background: alpha(darker(@background), 0.6);
-}
-
-.widget-volume slider, .widget-backlight slider {
-  background: transparent;
-}
-
-
-

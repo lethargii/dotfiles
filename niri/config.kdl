@@ -1,7 +1,14 @@
+include "./colors.kdl"
+
+environment {
+  SUDO_EDITOR "/usr/bin/nvim"
+}
+
 input {
     keyboard {
         xkb {
           layout "us"
+          variant "intl"
         }
     }
     touchpad {
@@ -29,21 +36,14 @@ layout {
     default-column-width { proportion 0.5; }
     focus-ring {
         off
-        width 4
-        active-color "#7fc8ff"
-        inactive-color "#505050"
     }
     border {
         on
-        width 4
-        active-color "#ffc87f"
-        inactive-color "#505050"
         urgent-color "#9b0000"
     }
     shadow {
         // on
-        softness 30
-        spread 5
+
         offset x=0 y=5
         color "#0007"
     }
@@ -51,11 +51,190 @@ layout {
     }
 }
 
+workspace "code"
+
+workspace "work"
+
+workspace "music"
+
+workspace "discord"
+
+workspace "steam"
+
+workspace "mail"
+
+window-rule {
+  geometry-corner-radius 12
+  clip-to-geometry true
+  draw-border-with-background false
+}
+
+window-rule {
+  match app-id=r#"Cavasik"#
+  open-on-workspace "code"
+  default-column-width { proportion 0.35; }
+  default-window-height { proportion 0.5; }
+}
+
+window-rule {
+  match app-id=r#"wlctl"#
+  open-floating true
+}
+
+window-rule {
+  match at-startup=true app-id=r#"kitty"#
+  open-on-workspace "code"
+}
+
+window-rule {
+  match app-id=r#"kitty"#
+  default-column-width { proportion 0.65; }
+}
+
+window-rule {
+  match at-startup=true app-id=r#"Papers"#
+  open-on-workspace "code"
+}
+
+window-rule {
+  match app-id=r#"Papers"#
+  default-column-width { proportion 0.35; }
+}
+
+window-rule {
+  match at-startup=true app-id=r#"firefox"#
+  open-on-workspace "code"
+}
+
+window-rule {
+  match app-id=r#"firefox"#
+  default-column-width { proportion 0.65; }
+  opacity 0.9
+}
+
+window-rule {
+  match app-id=r#"harmonoid"#
+  open-on-workspace "music"
+  open-maximized true
+  opacity 0.9
+}
+
+window-rule {
+  match app-id=r#"vesktop"#
+  open-on-workspace "discord"
+  open-maximized true
+  opacity 1.0
+}
+
+window-rule {
+  match app-id=r#"steam"#
+  open-on-workspace "steam"
+  open-maximized true
+  opacity 0.9
+}
+
+window-rule {
+  match app-id=r#"geary"#
+  open-on-workspace "mail"
+  open-maximized true
+  opacity 0.85
+}
+
+window-rule {
+    match app-id="steam" title=r#"^notificationtoasts_\d+_desktop$"#
+    default-floating-position x=10 y=10 relative-to="bottom-right"
+}
+
+window-rule {
+  match app-id=r#"Calendar"#
+  open-floating true
+}
+
+window-rule {
+  match app-id=r#"MissionCenter"#
+  open-floating true
+  default-column-width { proportion 0.7; }
+  default-window-height { proportion 0.8; }
+}
+
+window-rule {
+  match app-id=r#"nemo"#
+  open-floating true
+  default-column-width { proportion 0.7; }
+  default-window-height { proportion 0.8; }
+}
+
+window-rule {
+  match app-id=r#"Overskride"#
+  open-floating true
+  default-column-width { proportion 0.7; }
+  default-window-height { proportion 0.8; }
+}
+
+window-rule {
+  match app-id=r#"power-manager"#
+  open-floating true
+  default-column-width { proportion 0.7; }
+  default-window-height { proportion 0.8; }
+}
+
+window-rule {
+  match app-id=r#"Asunder"#
+  opacity 0.85
+}
+
+window-rule {
+  match app-id=r#"nemo"#
+  opacity 0.85
+}
+
+window-rule {
+  match app-id=r#"xfce"#
+  opacity 0.85
+}
+
+window-rule {
+  match app-id=r#"xfburn"#
+  opacity 0.85
+}
+
+window-rule {
+  match app-id=r#"Orion"#
+  opacity 0.9
+  default-column-width { proportion 0.65; }
+}
+
+window-rule {
+  match app-id=r#"anki"#
+  opacity 0.9
+}
+
 spawn-at-startup "waybar"
 
 spawn-at-startup "swaybg" "-i" ".config/background"
 
+spawn-at-startup "swaync"
+
+spawn-at-startup "/usr/libexec/polkit-mate-authentication-agent-1"
+
+spawn-at-startup "ibus" "start"
+
+spawn-sh-at-startup "~/.config/niri/script.sh"
+
+spawn-at-startup "geary"
+
+spawn-at-startup "flatpak" "run" "dev.vencord.Vesktop"
+
+spawn-at-startup "flatpak" "run" "ch.protonmail.protonmail-bridge" "--no-window"
+
+spawn-at-startup "flatpak" "run" "com.valvesoftware.Steam"
+
+spawn-at-startup "harmonoid"
+
+spawn-at-startup "xfce4-power-manager"
+
 hotkey-overlay {
+  skip-at-startup
 }
 
 screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
@@ -74,18 +253,19 @@ window-rule {
 
 binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
-    Mod+T hotkey-overlay-title="Open a Terminal: alacritty" { spawn "ghostty"; }
-    Mod+D hotkey-overlay-title="Run an Application: wofi" { spawn "wofi" "--show" "drun"; }
-    XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+ -l 1.0"; }
-    XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-"; }
-    XF86AudioMute        allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; }
+    Mod+T hotkey-overlay-title="Open a Terminal: alacritty" { spawn "kitty"; }
+    Mod+F { spawn "nemo"; }
+    Mod+D hotkey-overlay-title="Run an Application: wofi" { spawn-sh "/home/lethargii/.config/niri/wofi.sh"; }
+    XF86AudioRaiseVolume allow-when-locked=true { spawn "/home/lethargii/.config/niri/audio_raise.sh"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn "/home/lethargii/.config/niri/audio_lower.sh"; }
+    XF86AudioMute        allow-when-locked=true { spawn "/home/lethargii/.config/niri/audio_mute.sh"; }
     XF86AudioMicMute     allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
     XF86AudioPlay        allow-when-locked=true { spawn-sh "playerctl play-pause"; }
     XF86AudioStop        allow-when-locked=true { spawn-sh "playerctl stop"; }
     XF86AudioPrev        allow-when-locked=true { spawn-sh "playerctl previous"; }
     XF86AudioNext        allow-when-locked=true { spawn-sh "playerctl next"; }
-    XF86MonBrightnessUp allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "+10%"; }
-    XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "10%-"; }
+    XF86MonBrightnessUp allow-when-locked=true { spawn "/home/lethargii/.config/niri/brightness_up.sh"; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn "/home/lethargii/.config/niri/brightness_down.sh"; }
     Mod+O repeat=false { toggle-overview; }
     Mod+Q repeat=false { close-window; }
     Mod+H     { focus-column-left; }
@@ -132,8 +312,8 @@ binds {
     Mod+Period { expel-window-from-column; }
     Mod+Shift+F { fullscreen-window; }
     Mod+Ctrl+F { expand-column-to-available-width; }
-    Mod+Minus { set-column-width "-10%"; }
-    Mod+Equal { set-column-width "+10%"; }
+    Mod+Minus { set-column-width "-5%"; }
+    Mod+Equal { set-column-width "+5%"; }
     Mod+V       { toggle-window-floating; }
     Mod+Shift+V { switch-focus-between-floating-and-tiling; }
     Mod+W { toggle-column-tabbed-display; }

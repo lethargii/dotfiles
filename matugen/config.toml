@@ -1,0 +1,41 @@
+[config]
+[templates.kitty]
+input_path = 'templates/kitty-colors.conf'
+output_path = '~/.config/kitty/themes/Matugen.conf'
+post_hook = "kitty +kitten themes --reload-in=all Matugen"
+[templates.gtk2]
+input_path = 'templates/gtk2-colors.css'
+output_path = '~/.gtkrc-2.0'
+[templates.gtk3]
+input_path = 'templates/gtk3-colors.css'
+output_path = '~/.config/gtk-3.0/colors.css'
+post_hook = 'gsettings set org.gnome.desktop.interface gtk-theme ""; gsettings set org.gnome.desktop.interface gtk-theme adw-gtk3-{{mode}}'
+[templates.gtk4]
+input_path = 'templates/gtk4-colors.css'
+output_path = '~/.config/gtk-4.0/colors.css'
+[templates.vesktop]
+input_path = 'templates/midnight-discord.css'
+output_path = '~/.var/app/dev.vencord.Vesktop/config/vesktop/themes/midnight-discord.css'
+[templates.niri]
+input_path = 'templates/niri-colors.kdl'
+output_path = '~/.config/niri/colors.kdl'
+post_hook = 'niri msg action load-config-file'
+[templates.nvim]
+input_path = 'templates/nvim-colors.vim'
+output_path = '~/.cache/wal/colors-wal.vim'
+post_hook = 'pkill -SIGUSR1 nvim'
+[templates.waybar]
+input_path = 'templates/colors.css'
+output_path = '~/.config/waybar/colors.css'
+post_hook = 'pkill -SIGUSR2 waybar'
+[templates.wofi]
+input_path = "templates/colors.css"
+output_path = "~/.config/wofi/colors.css"
+[templates.swaync]
+input_path = "templates/colors.css"
+output_path = "~/.config/swaync/colors.css"
+post_hook = "swaync-client -rs"
+[templates.steam]
+input_path = 'templates/steam.css'
+output_path = '~/.var/app/io.github.Foldex.AdwSteamGtk/config/AdwSteamGtk/custom.css'
+post_hook =  'flatpak run io.github.Foldex.AdwSteamGtk -i'

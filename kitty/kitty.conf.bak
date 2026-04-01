@@ -1,0 +1,5 @@
+include ~/.cache/wal/colors-kitty.conf
+font_family DepartureMono Nerd Font
+font_size 11.0
+background_opacity 0.8
+startup_session launch.conf

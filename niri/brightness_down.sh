@@ -1,0 +1,1 @@
+brightnessctl set 5%- -m | awk -F ',' '{print $4+0}' | xargs -I[] notify-send -e --icon=display-brightness-symbolic -u critical -h string:x-canonical-private-synchronous:brightness_notif -h int:value:[] "Brightness" "[]%"

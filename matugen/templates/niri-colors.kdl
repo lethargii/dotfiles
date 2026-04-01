@@ -1,0 +1,8 @@
+layout {
+  border {
+    on
+    width 4
+    active-gradient from="{{base16.base08.dark.hex}}" to="{{base16.base09.dark.hex}}" angle=45
+    inactive-gradient from="{{base16.base08.dark.hex}}" to="{{base16.base00.dark.hex | lighten: -15.0}}" angle=45
+  }
+}

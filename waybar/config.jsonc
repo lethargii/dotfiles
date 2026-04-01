@@ -1,29 +1,19 @@
 {
   "layer": "top",
   "position": "bottom",
-  "modules-left": ["group/alimentation", "group/whoami"],
-  "modules-center": ["custom/swaync"],
-  "modules-right": ["tray", "keyboard-state", "group/networking", "group/power", "clock"],
+  "modules-left": ["image#niri", "group/whoami", "custom/pkg"],
+  "modules-right": ["tray", "group/keyboard", "group/swaync", "group/networking", "group/power", "clock"],
 
-  "group/alimentation": {
-    "orientation": "inherit",
-    "modules": ["custom/poweroff", "custom/reboot", "custom/logout"]
+
+
+  "image#niri": {
+    "path": "/home/lethargii/.config/waybar/niri-logo.svg",
+    "size": 32,
+    "on-click": "/home/lethargii/.config/niri/wofi.sh"
   },
-  "custom/poweroff": {
-    "format": "<span size='10pt'>⏻</span>",
-    "on-click": "poweroff",
-    "tooltip-format": "Turn off the computer"
-  },
-  "custom/reboot": {
-    "format": "<span size='10pt'></span>",
-    "on-click": "reboot",
-    "tooltip-format": "Reboot the computer"
-  },
-  "custom/logout": {
-    "format": "<span size='10pt'></span>",
-    "on-click": "niri msg action quit",
-    "tooltip-format": "Log out from the session"
-  },
+
+
+
 
   "group/whoami": {
     "orientation": "inherit",
@@ -32,24 +22,48 @@
   "user": {
     "format": "",
     "interval": 60,
-    "height": 16,
-    "width": 16,
-    "icon": true
+    "height": 22,
+    "width": 22,
+    "icon": true,
+    "on-click": "~/.config/waybar/powermenu.py",
   },
   "custom/username": {
     "exec": "whoami",
-    "tooltip": false
+    "tooltip": false,
+    "on-click": "~/.config/waybar/powermenu.py",
   },
 
-  "custom/swaync": {
-    "max-length": 30,
-    "on-click": "swaync-client -t -sw"
+
+
+  "custom/pkg": {
+    "format": "{icon}",
+    "interval": 3600,
+    "format-icons": {
+      "updates": "",
+      "no_updates": "",
+    },
+    "tooltip": true,
+    "tooltip-format": "{}",
+    "exec": "~/.config/waybar/pkg.py",
+    "exec-if": "which dnf",
+    "on-click": "~/.config/waybar/pkg.sh",
+    "return-type": "json",
+    "signal": 1,
   },
+
+
+
 
   "tray": {
-    "spacing": 10
+    "spacing": 10,
   },
 
+
+
+  "group/keyboard": {
+    "orientation": "inherit",
+    "modules": ["custom/ibus"],
+  },
   "keyboard-state": {
     "numlock": true,
     "capslock": true,
@@ -58,14 +72,83 @@
       "capslock": "C {icon} "
     },
     "format-icons": {
-      "locked": "<span size='10pt'></span>",
-      "unlocked": "<span size='10pt'></span>"
+      "locked": "",
+      "unlocked": ""
     }
   },
+  "custom/ibus": {
+    "format": "{}",
+    "exec": "~/.config/waybar/ibus.sh",
+    "exec-if": "which ibus",
+    "on-click": "~/.config/waybar/ibus.py",
+    "interval": 1,
+  },
+
+
+
+
+  "group/swaync": {
+    "orientation": "inherit",
+    "modules": ["custom/notification", "wireplumber#sink", "wireplumber#source", "backlight"]
+  },
+  "custom/notification": {
+    "tooltip": true,
+    "format": "<span size='16pt'>{icon}</span>",
+    "format-icons": {
+      "notification": "",
+      "none": "",
+      "dnd-notification": "",
+      "dnd-none": "",
+      "inhibited-notification": "",
+      "inhibited-none": "",
+      "dnd-inhibited-notification": "",
+      "dnd-inhibited-none": ""
+    },
+    "return-type": "json",
+    "exec-if": "which swaync-client",
+    "exec": "swaync-client -swb",
+    "on-click": "swaync-client -t -sw",
+    "on-click-right": "swaync-client -d -sw",
+    "escape": true
+  },
+  "wireplumber#sink": {
+    "node-type": "Audio/Sink",
+    "format": "{icon}",
+    "format-muted": "",
+    "format-icons": {
+      "default": ["", "", ""]
+    },
+    "tooltip-format": "{volume}%",
+    "on-click": "swaync-client -t -sw",
+    "on-click-right": "swaync-client -d -sw",
+  },
+  "wireplumber#source": {
+    "node-type": "Audio/Source",
+    "format": "{icon}",
+    "format-muted": "󰍭",
+    "format-icons": {
+      "default": ["󰍬"]
+    },
+    "tooltip-format": "{volume}%",
+    "on-click": "swaync-client -t -sw",
+    "on-click-right": "swaync-client -d -sw",
+  },
+  "backlight": {
+    "format": "{icon}",
+    "format-icons": {
+      "default": ["󰃚", "󰃛", "󰃜", "󰃝", "󰃞", "󰃟", "󰃠"]
+    },
+    "tooltip-format": "{percent}%",
+    "on-click": "swaync-client -t -sw",
+    "on-click-right": "swaync-client -d -sw",
+  },
+
+
+
 
   "group/networking": {
     "orientation": "inherit",
-    "modules": ["wireplumber", "network", "bluetooth"]
+    "modules": ["network", "bluetooth"]
   },
   "network": {
     "interface": "wlp4s0",
@@ -74,45 +157,37 @@
     "format-disconnected": "{icon}", //An empty format will hide the module.
     "format-icons": {
       "wifi": [
-        "<span size='10pt'>󰤯</span>",
-        "<span size='10pt'>󰤟</span>",
-        "<span size='10pt'>󰤢</span>",
-        "<span size='10pt'>󰤥</span>",
-        "<span size='10pt'>󰤨</span>"
+        "󰤯",
+        "󰤟",
+        "󰤢",
+        "󰤥",
+        "󰤨"
       ],
-      "ethernet": "<span size='10pt'>󰈀</span>",
-      "disabled": "<span size='10pt'>󰤭</span>",
-      "disconnected": "<span size='10pt'>󰤩</span>"
+      "ethernet": "󰈀",
+      "disabled": "󰤭",
+      "disconnected": "󰤩"
     },
     "tooltip-format-wifi": "{essid} ({signalStrength}%)",
     "tooltip-format-ethernet": "{ifname} ",
     "tooltip-format-disconnected": "Disconnected",
-    "on-click": "nm-connection-editor"
+    "on-click": "kitty --class wlctl -e .cargo/bin/wlctl"
   },
   "bluetooth": {
-    "format-on": "<span size='10pt'>󰂯</span>",
-    "format-off": "<span size='10pt'>󰂲</span>",
-    "format-disabled": "<span size='10pt'>󰂲</span>",
-    "format-connected": "<span size='10pt'>󰂱</span>",
-    "tooltip-format": "{device_enumerate}",
-    "tooltip-format-enumerate-connected": "{device_address}",
-    "tooltip-format-enumerate-connected-battery": "{device_address} | Battery: {device_battery_percentage}%",
-    "on-click": "blueman-manager"
+    "format-on": "󰂯",
+    "format-off": "󰂲",
+    "format-disabled": "󰂲",
+    "format-connected": "󰂱",
+    "tooltip-format-disabled": "Bluetooth is disabled",
+    "tooltip-format-off": "Bluetooth is turned off",
+    "tooltip-format-on": "No device connected",
+    "tooltip-format-connected": "{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device alias} {device_address}",
+    "tooltip-format-enumerate-connected-battery": "{device alias} {device_address} | Battery: {device_battery_percentage}%",
+    "on-click": "flatpak run io.github.kaii_lb.Overskride"
   },
 
-  "group/sound": {
-    "orientation": "inherit",
-    "modules": ["group/sink", "wireplumber#source"]
-  },
-  "wireplumber": {
-    "format": "{icon}",
-    "format-muted": "🔇",
-    "tooltip-format": "{volume}%",
-    "format-icons": {
-      "default": ["", ""]
-    },
-    "on-click": "pavucontrol"
-  },
+
+
 
   "group/power": {
     "orientation": "inherit",
@@ -127,42 +202,43 @@
     "tooltip-format": "{capacity}% - {time} until fully discharged",
     "tooltip-format-charging": "{capacity}% - {time} until fully charged",
     "format-icons": [
-      "<span size='10pt'>󰁺</span>",
-      "<span size='10pt'>󰁻</span>",
-      "<span size='10pt'>󰁼</span>",
-      "<span size='10pt'>󰁽</span>",
-      "<span size='10pt'>󰁾</span>",
-      "<span size='10pt'>󰁿</span>",
-      "<span size='10pt'>󰂀</span>",
-      "<span size='10pt'>󰂁</span>",
-      "<span size='10pt'>󰂂</span>",
-      "<span size='10pt'>󰁹</span>"
+      "󰁺",
+      "󰁻",
+      "󰁼",
+      "󰁽",
+      "󰁾",
+      "󰁿",
+      "󰂀",
+      "󰂁",
+      "󰂂",
+      "󰁹"
     ],
-    "format-charging": "<span size='10pt'>󰂄</span>",
-    "format-plugged": "<span size='10pt'>󰚥</span>",
-    "format-critical": "<span size='10pt'>󰂃</span>"
+    "format-charging": "󰂄",
+    "format-plugged": "󰚥",
+    "format-critical": "󰂃",
+    "on-click": "xfce4-power-manager-settings",
   },
   "power-profiles-daemon": {
     "format": "{icon}",
     "tooltip-format": "Power profile: {profile}",
     "tooltip": true,
     "format-icons": {
-      "default": "<span size='10pt'></span>",
-      "performance": "<span size='10pt'></span>",
-      "balanced": "<span size='10pt'></span>",
-      "power-saver": "<span size='10pt'></span>"
+      "default": "",
+      "performance": "",
+      "balanced": "",
+      "power-saver": ""
     }
   },
 
+
+
+
+
   "clock": {
     "format": "{:L%a %d %b %H:%M}",
+    "tooltip": true,
+    "tooltip-format": "{:%d/%m/%Y}",
     "locale": "fr_FR.UTF-8",
-    "tooltip-format": "<tt><small>{calendar}</small></tt>",
     "on-click": "gnome-calendar",
-    "actions":  {
-      "on-click-right": "mode",
-      "on-scroll-up": "shift_up",
-      "on-scroll-down": "shift_down"
-    }
   }
 }
