@@ -9,10 +9,9 @@ nb_updates_flat = int(
             text=True
             ).stdout
         )
-subprocess.run("pkcon refresh force", shell=True, capture_output=True)
 nb_updates = int(
         subprocess.run(
-            "pkcon get-updates | grep Disp | wc -l",
+            "dnf check-update | grep fc | wc -l",
             shell=True,
             capture_output=True,
             text=True).stdout)
